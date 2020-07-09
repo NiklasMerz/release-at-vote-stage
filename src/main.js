@@ -1,20 +1,3 @@
-/**
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    'License'); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
-    http://www.apache.org/licenses/LICENSE-2.0
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    'AS IS' BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-    KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
-*/
-
 const core = require('@actions/core');
 const github = require('@actions/github');
 
@@ -35,7 +18,11 @@ async function run() {
     });
     console.log(`Issue body: ${issue.data.body}`);
     checkString = issue.data.body;
-    console.log("author member", issue.data.author_association);
+
+    if (checkAuthor(issue.data.author_association)) {
+      //return;
+    }
+
     if (checkMessageForRelease(issue.data.body)) {
       console.log('Close issue', issueCtx.number);
       // Close issues soley asking for release
@@ -52,13 +39,10 @@ async function run() {
       repo: issueCtx.repo,
       issue_number: issueCtx.number
     });
-    const lastComment = comments[comments.length-1];
+    const lastComment = comments[comments.length - 1];
 
-    if (lastComment?.author_association === 'OWNER' ||
-        lastComment?.author_association === 'COLLABORATOR' ||
-        lastComment?.author_association === 'MEMBER') {
-          console.log('Do not comment on members comments and issues');
-          //return;
+    if (checkAuthor(lastComment?.author_association)) {
+      //return;
     }
 
     if (lastComment?.body) {
@@ -84,6 +68,16 @@ async function run() {
 function checkMessageForRelease(checkString) {
   ///release/g.test(checkString) ||
   return /npm/g.test(checkString);
+}
+
+function checkAuthor(association) {
+  const permittedRoles = ['OWNER', 'COLLABORATOR', 'MEMBER'];
+  if (permittedRoles.indexOf(association)) {
+    console.log('Do not comment on members comments and issues');
+    return true;
+  } else {
+    return false;
+  }
 }
 
 run();

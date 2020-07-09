@@ -66,8 +66,21 @@ async function run() {
 }
 
 function checkMessageForRelease(checkString) {
-  ///release/g.test(checkString) ||
-  return /npm/g.test(checkString);
+  let penalty = 0;
+   if (/npm/g.test(checkString)) {
+    penalty += 5;
+   }
+   if (/release/g.test(checkString)) {
+    penalty += 3;
+   }
+   if (/new version/g.test(checkString)) {
+    penalty += 2;
+   }
+   if (/tag/g.test(checkString)) {
+    penalty += 2;
+   }
+
+  return penalty > 5;
 }
 
 function checkAuthor(association) {

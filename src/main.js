@@ -42,8 +42,11 @@ async function run() {
       repo: issueCtx.repo,
       issue_number: issueCtx.number
     });
-    console.log(JSON.stringify(comments));
+    lastComment = comments[comments.length];
+    console.debug("Last comment author", lastComment.user.login);
+    checkString = lastComment?.body;
 
+    console.log("Check body", checkString);
     if (/release/g.test(checkString) || /npm/g.test(checkString)) {
       console.log(`Adding message: ${message} to issue ${issueCtx.number}`);
       await client.issues.createComment({

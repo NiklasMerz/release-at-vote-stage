@@ -21,11 +21,20 @@ const github = require('@actions/github');
 async function run() {
   try {
     const message = core.getInput('message');
+    const client = new github.GitHub(
+      core.getInput('repo-token', {required: true})
+    );
+    const context = github.context;
     console.log(`Hello ${message} from inside a container`);
 
-    // Get github context data
-    const context = github.context;
-    console.log(`We can even get context data, like the repo: ${context.issue.number}`)
+    const issue: {owner: string; repo: string; number: number} = context.issue;
+    console.log(`Adding message: ${message} to issue ${issue.number}`);
+    await client.issues.createComment({
+      owner: issue.owner,
+      repo: issue.repo,
+      issue_number: issue.number,
+      body: message
+    });
   } catch (error) {
     core.setFailed(error.message);
   }

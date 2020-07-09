@@ -25,7 +25,7 @@ async function run() {
 
     // Get github context data
     const context = github.context;
-    console.log(`We can even get context data, like the repo: ${context.repo.repo}`)
+    console.log(`We can even get context data, like the repo: ${context.issue}`)
   } catch (error) {
     core.setFailed(error.message);
   }

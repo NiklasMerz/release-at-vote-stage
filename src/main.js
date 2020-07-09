@@ -47,7 +47,8 @@ async function run() {
     checkString = lastComment?.body;
 
     console.log("Check body", checkString);
-    if (/release/g.test(checkString) || /npm/g.test(checkString)) {
+    ///release/g.test(checkString) ||
+    if ( /npm/g.test(checkString)) {
       console.log(`Adding message: ${message} to issue ${issueCtx.number}`);
       await client.issues.createComment({
         owner: issueCtx.owner,

@@ -1,10 +1,10 @@
-name: 'Container Action Template'
-description: 'Get started with Container actions'
-author: 'GitHub'
+name: 'Release Voting Notifier'
+description: 'Automatic replies to users asking for releases that are currently being voted on.'
+author: 'NiklasMerz'
 inputs: 
-  myInput:
-    description: 'Input to use'
-    default: 'world'
+  message:
+    description: 'Define message to post for issues asking for release.'
+    default: 'The release you are asking for is currently at the VOTE stage. To find out more about Apache Releases please go to: http://www.apache.org/legal/release-policy.html'
 runs:
   using: 'docker'
   image: 'Dockerfile'

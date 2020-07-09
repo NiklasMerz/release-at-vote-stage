@@ -7,3 +7,25 @@ This action will comment on issues and comments created that are detected as "as
 The action checks these [keywords](https://github.com/NiklasMerz/release-at-vote-stage/blob/da35b2a6b60728338be59caa2b607fef045419c6/src/main.js#L74)
 
 You can test it by creating issues here: https://github.com/NiklasMerz/release-test/issues
+
+
+## Example workflow
+
+```yml
+name: Notify about pending releases
+
+on:
+  issues:
+    types: [opened]
+  issue_comment:
+    types: [created]
+    
+
+jobs:
+  action-test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: niklasmerz/release-at-vote-stage@master
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+```

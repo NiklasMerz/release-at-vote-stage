@@ -35,20 +35,28 @@ async function run() {
     });
     console.log(`Issue body: ${issue.data.body}`);
     checkString = issue.data.body
+    if (checkMessageForRelease(issue.data.body)) {
+      // Close issues soley asking for release
+      await client.issues.close({
+        owner: issueCtx.owner,
+        repo: issueCtx.repo,
+        issue_number: issueCtx.number
+      });
+    }
 
-    let lastComment;
     const {data: comments} = await client.issues.listComments({
       owner: issueCtx.owner,
       repo: issueCtx.repo,
       issue_number: issueCtx.number
     });
-    lastComment = comments[comments.length];
-    console.debug("Last comment author", lastComment.user.login);
+    console.log(comments)
+    const lastComment = comments[comments.length];
+    console.debug("Last comment author", lastComment?.user.login);
     checkString = lastComment?.body;
 
     console.log("Check body", checkString);
-    ///release/g.test(checkString) ||
-    if ( /npm/g.test(checkString)) {
+    
+    if (checkMessageForRelease(checkString)) {
       console.log(`Adding message: ${message} to issue ${issueCtx.number}`);
       await client.issues.createComment({
         owner: issueCtx.owner,
@@ -60,6 +68,11 @@ async function run() {
   } catch (error) {
     core.setFailed(error.message);
   }
+}
+
+function checkMessageForRelease(checkString) {
+  ///release/g.test(checkString) ||
+  return /npm/g.test(checkMessageForRelease)
 }
 
 run();

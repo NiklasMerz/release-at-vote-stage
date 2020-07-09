@@ -25,9 +25,16 @@ async function run() {
       core.getInput('repo-token', {required: true})
     );
     const context = github.context;
-    console.log(`Hello ${message} from inside a container`);
-
     const issue: {owner: string; repo: string; number: number} = context.issue;
+
+    const issueBody = (await client.issues.get({
+      owner: issue.owner,
+      repo: issue.repo,
+      issue_number: issue.number,
+      body: message
+    })).body;
+    console.log(`issue body ${issueBody}`);
+
     console.log(`Adding message: ${message} to issue ${issue.number}`);
     await client.issues.createComment({
       owner: issue.owner,

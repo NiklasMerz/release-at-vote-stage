@@ -25,20 +25,22 @@ async function run() {
       core.getInput('repo-token', {required: true})
     );
     const context = github.context;
-    const issue: {owner: string; repo: string; number: number} = context.issue;
+    const issueCtx: {owner: string; repo: string; number: number} = context.issue;
 
-    const issueBody = (await client.issues.get({
-      owner: issue.owner,
-      repo: issue.repo,
-      issue_number: issue.number
+    let checkString;
+    const issue = (await client.issues.get({
+      owner: issueCtx.owner,
+      repo: issueCtx.repo,
+      issue_number: issueCtx.number
     }));
-    console.log(`issue body ${JSON.stringify(issueBody)}`);
+    console.log(`issue body ${issue.body}`);
+    checkString = issue.body
 
-    console.log(`Adding message: ${message} to issue ${issue.number}`);
+    console.log(`Adding message: ${message} to issue ${issueCtx.number}`);
     await client.issues.createComment({
-      owner: issue.owner,
-      repo: issue.repo,
-      issue_number: issue.number,
+      owner: issueCtx.owner,
+      repo: issueCtx.repo,
+      issue_number: issueCtx.number,
       body: message
     });
   } catch (error) {

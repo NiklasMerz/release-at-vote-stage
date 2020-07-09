@@ -30,9 +30,8 @@ async function run() {
     const issueBody = (await client.issues.get({
       owner: issue.owner,
       repo: issue.repo,
-      issue_number: issue.number,
-      body: message
-    })).body;
+      issue_number: issue.number
+    }));
     console.log(`issue body ${issueBody}`);
 
     console.log(`Adding message: ${message} to issue ${issue.number}`);

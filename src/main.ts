@@ -21,11 +21,11 @@ const github = require('@actions/github');
 async function run() {
   try {
     const message = core.getInput('message');
-    core.debug(`Hello ${message} from inside a container`);
+    console.log(`Hello ${message} from inside a container`);
 
     // Get github context data
     const context = github.context;
-    console.log(`We can even get context data, like the repo: ${context.issue}`)
+    console.log(`We can even get context data, like the repo: ${context.issue.number}`)
   } catch (error) {
     core.setFailed(error.message);
   }

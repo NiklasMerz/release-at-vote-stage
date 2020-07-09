@@ -20,7 +20,7 @@ async function run() {
     checkString = issue.data.body;
 
     if (checkAuthor(issue.data.author_association)) {
-      //return;
+      return;
     }
 
     if (checkMessageForRelease(issue.data.body)) {
@@ -42,7 +42,7 @@ async function run() {
     const lastComment = comments[comments.length - 1];
 
     if (checkAuthor(lastComment?.author_association)) {
-      //return;
+      return;
     }
 
     if (lastComment?.body) {

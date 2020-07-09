@@ -35,6 +35,7 @@ async function run() {
     });
     console.log(`Issue body: ${issue.data.body}`);
     checkString = issue.data.body;
+    console.log("author member", issue.data.author_association);
     if (checkMessageForRelease(issue.data.body)) {
       console.log('Close issue', issueCtx.number);
       // Close issues soley asking for release
@@ -82,7 +83,7 @@ async function run() {
 
 function checkMessageForRelease(checkString) {
   ///release/g.test(checkString) ||
-  return /npm/g.test(checkMessageForRelease);
+  return /npm/g.test(checkString);
 }
 
 run();

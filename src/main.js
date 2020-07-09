@@ -51,10 +51,18 @@ async function run() {
       repo: issueCtx.repo,
       issue_number: issueCtx.number
     });
-    console.log(comments);
-    const lastComment = comments[comments.length];
-    console.debug('Last comment author', lastComment?.user.login);
-    checkString = lastComment?.body;
+    const lastComment = comments[comments.length-1];
+
+    if (lastComment?.author_association === 'OWNER' ||
+        lastComment?.author_association === 'COLLABORATOR' ||
+        lastComment?.author_association === 'MEMBER') {
+          console.log('Do not comment on members comments and issues');
+          //return;
+    }
+
+    if (lastComment?.body) {
+      checkString = lastComment?.body;
+    }
 
     console.log('Check body', checkString);
 

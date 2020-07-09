@@ -33,11 +33,11 @@ async function run() {
       repo: issueCtx.repo,
       issue_number: issueCtx.number
     });
-    console.log(`Issue body: ${issue.body}`);
-    checkString = issue.body
+    console.log(`Issue body: ${issue.data.body}`);
+    checkString = issue.data.body
 
     let lastComment;
-    const comments = await client.issues.listComments({
+    const {data: comments} = await client.issues.listComments({
       owner: issueCtx.owner,
       repo: issueCtx.repo,
       issue_number: issueCtx.number

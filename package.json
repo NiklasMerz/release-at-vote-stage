@@ -4,7 +4,7 @@
   "description": "Container template action using actions/toolkit",
   "main": "src/main.js",
   "scripts": {
-    "format": "prettier --write **/*.ts",
+    "format": "prettier --write **/*.js",
     "test": "jest"
   },
   "repository": {

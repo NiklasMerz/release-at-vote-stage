@@ -32,7 +32,7 @@ async function run() {
       repo: issue.repo,
       issue_number: issue.number
     }));
-    console.log(`issue body ${issueBody}`);
+    console.log(`issue body ${JSON.stringify(issueBody)}`);
 
     console.log(`Adding message: ${message} to issue ${issue.number}`);
     await client.issues.createComment({

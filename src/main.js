@@ -86,7 +86,7 @@ function checkMessageForRelease(checkString) {
 
 function checkAuthor(association) {
   const permittedRoles = ['OWNER', 'COLLABORATOR', 'MEMBER'];
-  if (permittedRoles.indexOf(association)) {
+  if (permittedRoles.indexOf(association) >= 0) {
     console.log('Do not comment on members comments and issues');
     return true;
   } else {

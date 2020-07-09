@@ -19,6 +19,7 @@ async function run() {
     console.log(`Issue body: ${issue.data.body}`);
     checkString = issue.data.body;
 
+    console.log("Author", issue.data.author_association);
     if (checkAuthor(issue.data.author_association)) {
       return;
     }

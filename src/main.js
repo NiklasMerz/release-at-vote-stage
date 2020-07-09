@@ -25,24 +25,34 @@ async function run() {
       core.getInput('repo-token', {required: true})
     );
     const context = github.context;
-    const issueCtx: {owner: string; repo: string; number: number} = context.issue;
+    const issueCtx = context.issue;
 
     let checkString;
-    const issue = (await client.issues.get({
+    const issue = await client.issues.get({
       owner: issueCtx.owner,
       repo: issueCtx.repo,
       issue_number: issueCtx.number
-    }));
-    console.log(`issue body ${issue.body}`);
+    });
+    console.log(`Issue body: ${issue.body}`);
     checkString = issue.body
 
-    console.log(`Adding message: ${message} to issue ${issueCtx.number}`);
-    await client.issues.createComment({
+    let lastComment;
+    const comments = await client.issues.listComments({
       owner: issueCtx.owner,
       repo: issueCtx.repo,
-      issue_number: issueCtx.number,
-      body: message
+      issue_number: issueCtx.number
     });
+    console.log(JSON.stringify(comments));
+
+    if (/release/g.test(checkString) || /npm/g.test(checkString)) {
+      console.log(`Adding message: ${message} to issue ${issueCtx.number}`);
+      await client.issues.createComment({
+        owner: issueCtx.owner,
+        repo: issueCtx.repo,
+        issue_number: issueCtx.number,
+        body: message
+      });
+    }
   } catch (error) {
     core.setFailed(error.message);
   }

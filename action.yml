@@ -4,7 +4,7 @@ author: 'NiklasMerz'
 inputs: 
   message:
     description: 'Define message to post for issues asking for release.'
-    default: 'The release you are asking for is currently at the VOTE stage. To find out more about Apache Releases please go to: http://www.apache.org/legal/release-policy.html'
+    default: 'This bot detected you are probably asking for a release. It might be possible that the release is currently being prepared. To find out more about Apache Releases please go to: http://www.apache.org/legal/release-policy.html'
     required: false
   repo-token:
     description: 'Token for the repository. Can be passed in using {{ secrets.GITHUB_TOKEN }}'

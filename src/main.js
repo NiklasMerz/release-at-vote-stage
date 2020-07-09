@@ -64,7 +64,7 @@ async function run() {
       checkString = lastComment?.body;
     }
 
-    console.log('Check body', checkString);
+    console.log('Check body:', checkString);
 
     if (checkMessageForRelease(checkString)) {
       console.log(`Adding message: ${message} to issue ${issueCtx.number}`);

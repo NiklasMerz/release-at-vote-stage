@@ -1,6 +1,13 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
 
+const penalties = [
+  {search: 'npm', penalty: 5},
+  {search: 'release', penalty: 3},
+  {search: 'new version', penalty: 2},
+  {search: 'tag', penalty: 2}
+]
+
 async function run() {
   try {
     const message = core.getInput('message');
@@ -68,18 +75,12 @@ async function run() {
 
 function checkMessageForRelease(checkString) {
   let penalty = 0;
-   if (/npm/g.test(checkString)) {
-    penalty += 5;
-   }
-   if (/release/g.test(checkString)) {
-    penalty += 3;
-   }
-   if (/new version/g.test(checkString)) {
-    penalty += 2;
-   }
-   if (/tag/g.test(checkString)) {
-    penalty += 2;
-   }
+  for (let p of penalties) {
+    const reg = new RegExp(p.search, 'gi');
+    if (reg.test(checkString)) {
+      penalty += p.penalty;
+    }
+  }
 
   return penalty > 5;
 }

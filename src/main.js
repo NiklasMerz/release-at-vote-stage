@@ -90,6 +90,7 @@ function checkMessageForRelease(checkString) {
     penalty += 3;
   }
 
+  console.log('Penalty: ', penalty);
   return penalty > 5;
 }
 

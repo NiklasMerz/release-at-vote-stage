@@ -30,6 +30,7 @@ async function run() {
 
     console.log(`Author: ${issue.data.author_association}`);
     if (checkAuthor(issue.data.author_association)) {
+      checkMessageForRelease(message);
       return;
     }
 
@@ -52,6 +53,7 @@ async function run() {
     const lastComment = comments[comments.length - 1];
 
     if (checkAuthor(lastComment?.author_association)) {
+      checkMessageForRelease(message);
       return;
     }
 

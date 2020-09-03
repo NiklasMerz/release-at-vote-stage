@@ -84,11 +84,11 @@ function checkMessageForRelease(checkString) {
     }
   }
 
-  // Count uppercase characters and assign penalty
-  const numUpper = checkString.length - checkString.replace(/[A-Z]/g, '').length;
+  // Count uppercase characters and assign penalty DISABLED
+  /* const numUpper = checkString.length - checkString.replace(/[A-Z]/g, '').length;
   if (numUpper > 10) {
     penalty += 3;
-  }
+  } */
 
   console.log('Penalty: ', penalty);
   return penalty > 5;

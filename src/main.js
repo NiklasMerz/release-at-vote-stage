@@ -5,7 +5,9 @@ const penalties = [
   {search: 'npm', penalty: 5},
   {search: 'release', penalty: 3},
   {search: 'new version', penalty: 2},
-  {search: 'tag', penalty: 2}
+  {search: 'tag', penalty: 2},
+  {search: 'please', penalty: 4},
+  {search: 'ASAP', penalty: 6},
 ]
 
 async function run() {
@@ -80,6 +82,12 @@ function checkMessageForRelease(checkString) {
     if (reg.test(checkString)) {
       penalty += p.penalty;
     }
+  }
+
+  // Count uppercase characters and assign penalty
+  const numUpper = checkString.length - checkString.replace(/[A-Z]/g, '').length;
+  if (numUpper > 10) {
+    penalty += 3;
   }
 
   return penalty > 5;
